@@ -90,7 +90,7 @@ document.addEventListener("DOMContentLoaded",()=>{
     let inCorrect=0;
     // fonction d affichage des question
     function showQuestion(index){
-        quizContainer.innerHTML=`<div class="question pt-9 h-screen flex flex-col gap-11">
+        quizContainer.innerHTML=`<div class="question pt-9 h-screen flex flex-col gap-3 lg:gap-11 md:gap-11">
                                     <!-- timer -->
                                     <div>
                                         <div class="w-32 bg-[#525CEB] text-2xl text-white float-right text-center rounded-full mr-0 lg:mr-44 md:mr-44">00:20</div>
@@ -106,7 +106,7 @@ document.addEventListener("DOMContentLoaded",()=>{
                                         </div>
                                         </div>
                                         
-                                        <div class="w-1/3">
+                                        <div class="w-11/12 lg:w-1/3 md:w-1/3">
                                         <!-- question -->
                                         <p class="text-xl text-center mb-10">${questions[index-1].question}</p>
                                         <!-- answers -->
