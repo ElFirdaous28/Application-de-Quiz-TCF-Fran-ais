@@ -83,17 +83,24 @@ const questions = [
 
 
 document.addEventListener("DOMContentLoaded",()=>{
+    // shuffle the quwstions array
+    shuffleArray(questions);
+    // shuffle the answers array
+    questions.forEach((question)=>{
+        shuffleArray(question.answers);
+    })
     const userAnswers = []; 
     const quizContainer = document.getElementById('quiz_container');
     let questionIndex=1;
     let score=0;
-    let inCorrect=0;
+    let incorrect=0;
+    let totalTime=0;
     // fonction d affichage des question
     function showQuestion(index){
         quizContainer.innerHTML=`<div class="question pt-9 h-screen flex flex-col gap-3 lg:gap-11 md:gap-11">
                                     <!-- timer -->
                                     <div>
-                                        <div class="w-32 bg-[#525CEB] text-2xl text-white float-right text-center rounded-full mr-0 lg:mr-44 md:mr-44">00:20</div>
+                                        <div id="timer" class="w-32 bg-[#525CEB] text-2xl text-white float-right text-center rounded-full mr-0 lg:mr-44 md:mr-44">00:20</div>
                                     </div>
                                     <!-- question card -->
                                     <div class="w-11/12 lg:w-2/3 md:w-2/3 self-center border-2 border-[#BFCFE7] rounded-2xl py-10 flex flex-col items-center text-[#3D3B40]">
@@ -126,13 +133,42 @@ document.addEventListener("DOMContentLoaded",()=>{
                                     <button id="see_result" class="hidden border-2 bg-[#525CEB] rounded-full px-5 pt-1 pb-2 text-white">Voir Le Résultat</button>
                                     </div>
                                 </div>`;
-        
-        // check if answer correct
+
         const answers = document.querySelectorAll('.answers');
         const nextQuestion = document.getElementById('next_question');
         const seeResult = document.getElementById('see_result');
+        // question timming
+        let startTime=20;
+        const questionInterval = setInterval(() => {
+            document.getElementById("timer").innerText = `00:${String(startTime).padStart(2, '0')}`;
+            startTime--;
+        }, 1000);
+        // show next question if time out
+        const questionTimeOut = setTimeout(()=>{
+            clearInterval(questionInterval);
+            answers.forEach(btn => {
+                btn.disabled = true;
+            });
+            if(questionIndex<questions.length){
+                questionIndex++;
+                incorrect++;
+                showQuestion(questionIndex);
+            }
+            // or see result if time out and last wuestion
+            else if (index === questions.length) {
+                incorrect++;
+                nextQuestion.classList.add("hidden");  // Hide the "Next Question" button
+                seeResult.classList.remove("hidden");  // Show the "See Result" button
+            }
+        },20*1000)
+        // check if answer correct
             answers.forEach(answer => {
                 answer.addEventListener("click",()=>{
+                    clearInterval(questionInterval);
+                    clearTimeout(questionTimeOut);
+                    console.log(startTime);
+                    totalTime+=20-startTime;
+                    
                 // Disable all buttons when one of them is clicked
                 answers.forEach(btn => {
                     btn.disabled = true;
@@ -141,9 +177,11 @@ document.addEventListener("DOMContentLoaded",()=>{
                 if (index === questions.length) {
                     nextQuestion.classList.add("hidden");  // Hide the "Next Question" button
                     seeResult.classList.remove("hidden");  // Show the "See Result" button
+                    totalTime+=20-startTime;
                 } else {
                     nextQuestion.classList.remove("hidden");  // Show the "Next Question" button
                     seeResult.classList.add("hidden");  // Hide the "See Result" button
+                    totalTime+=20-startTime;
                 }
                 const answerText = answer.querySelector('span').textContent;
                 userAnswers.push({ id: questions[index - 1].id, answerChosen: answerText });
@@ -158,12 +196,18 @@ document.addEventListener("DOMContentLoaded",()=>{
                     answer.style.backgroundColor="rgba(217, 83, 79, 0.4)"
                     answer.classList.remove("hover:text-white", "hover:bg-[#525CEB]", "hover:border-[#525CEB]");
                     answer.classList.add("border-none");
-                    inCorrect++;
+                    incorrect++;
+                    // change the background of the correct answer
+                    answers.forEach(btnAnswer => {
+                        if (btnAnswer.querySelector('span').textContent === questions[questionIndex - 1].correctAnswer) {
+                            btnAnswer.style.backgroundColor = "rgba(107, 191, 89, 0.4)";
+                            btnAnswer.classList.remove("hover:text-white", "hover:bg-[#525CEB]", "hover:border-[#525CEB]");
+                            btnAnswer.classList.add("border-none");
+                        }
+                    });     
                 }
             })
         });
-
-        
         // showing the next question after button click        
         nextQuestion.addEventListener("click",()=>{
             if(questionIndex<questions.length){
@@ -172,11 +216,24 @@ document.addEventListener("DOMContentLoaded",()=>{
             }
     });
     seeResult.addEventListener("click",()=>{
-        console.log(userAnswers);
-        console.log(score);
-        console.log(inCorrect);
+        localStorage.setItem('userAnswers', JSON.stringify(userAnswers));
+        localStorage.setItem('score', score);
+        localStorage.setItem('incorrect', incorrect);
+        localStorage.setItem('totalTime', totalTime);
+        // go to score page
+        window.location.href = "score.html";
     });
     }
     // show the first question
     showQuestion(questionIndex);
 })
+
+
+function shuffleArray(array) {
+    for (var i = array.length - 1; i >= 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+    }
+}
