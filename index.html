@@ -25,9 +25,17 @@
             <h1 class="text-5xl lg:text-7xl md:text-7xl text-[#525CEB] mb-5">Quiz TCF Français</h1>
             <h2 class="text-3xl lg:text-5xl md:text-5xl text-[#3D3B40]">Par Institut Balzac</h2>
             <div class="mt-12 text-white">
+                <a href="score.html" id="old_score" class="hidden text-2xl mb-10 border-2 border-[#BFCFE7] rounded-full px-5 pt-1 pb-2 text-[#3D3B40] hover:text-white hover:bg-[#525CEB] hover:border-[#525CEB]">Ancienne Score</a>
                 <a href="quiz.html" class="text-2xl bg-[#525CEB] px-10 pb-2 pt-1 rounded-full">Commencer</a>
             </div>
         </div>
       </div>
+      <script>
+        const oldScore = document.getElementById('old_score');
+        const totalTimeLocalStrorage = localStorage.getItem('totalTime');
+        if(totalTimeLocalStrorage){
+          oldScore.classList.remove('hidden');
+        }
+      </script>
   </body>
 </html>
