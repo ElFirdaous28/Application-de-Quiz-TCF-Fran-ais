@@ -12,7 +12,6 @@
 
     <title>Document</title>
     <script src="js/tailwind.js"></script>
-    <link rel="stylesheet" href="css/animations.css">
   </head>
   <body>
     <div class="sm:w-full lg:w-3/4 md:w-3/4 mx-auto mt-10 flex  justify-between">
@@ -73,25 +72,14 @@
         </div>
 
         <!-- Bilan du Quiz -->
-         <div class=" flex flex-col mx-6 lg:mx-0 md:mx-0">
+         <div id="bilan_du_quiz" class=" flex flex-col mx-6 lg:mx-0 md:mx-0 gap-y-10">
           <h1 class="text-4xl font-semibold mb-10">Bilan du Quiz:</h1>
-          <!-- question -->
-          <div class="border-2 border-[#BFCFE7] rounded-xl flex flex-col justify-center items-center py-10">
-            <h1 class="text-[#525CEB] text-2xl">Question <span>1</span> :</h1>
-            <p class="mb-10 text-center mx-1 text-2xl">Quel est le synonyme de "content" ?</p>
-            <!-- answers -->
-            <div class="w-2/3 lg:w-1/2 md:w-1/2">
-              <div class="text-start mb-3 pl-5 py-1 rounded-xl border-2 border-[#BFCFE7]">a&#41; Heureux</div>
-              <div class="text-start mb-3 pl-5 py-1 rounded-xl border-2 border-[#BFCFE7]">b&#41; Heureux</div>
-              <div class="text-start mb-3 pl-5 py-1 rounded-xl border-2 border-[#BFCFE7]">c&#41; Heureux</div>
-              <div class="text-start mb-3 pl-5 py-1 rounded-xl border-2 border-[#BFCFE7]">d&#41; Heureux</div>
-            </div>
-          </div>
+          <!-- questions and answers will appear here -->
          </div>
      </div>
      <!-- show more button -->
      <div class="flex justify-center">
-      <button class="mb-10 border-2 border-[#BFCFE7] rounded-full px-5 pt-1 pb-2 text-[#3D3B40] hover:text-white hover:bg-[#525CEB] hover:border-[#525CEB]">Afficher Plus</button>
+      <button id="show_more" class="mb-10 border-2 border-[#BFCFE7] rounded-full px-5 pt-1 pb-2 text-[#3D3B40] hover:text-white hover:bg-[#525CEB] hover:border-[#525CEB]">Afficher Plus</button>
     </div>
     
 
