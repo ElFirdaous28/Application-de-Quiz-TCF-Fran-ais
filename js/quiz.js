@@ -152,13 +152,15 @@ document.addEventListener("DOMContentLoaded",()=>{
             if(questionIndex<questions.length){
                 questionIndex++;
                 incorrect++;
+                userAnswers.push({ id: questions[index - 1].id, answerChosen: '' });
                 showQuestion(questionIndex);
             }
-            // or see result if time out and last wuestion
+            // or see result if time out and last question
             else if (index === questions.length) {
                 incorrect++;
                 nextQuestion.classList.add("hidden");  // Hide the "Next Question" button
                 seeResult.classList.remove("hidden");  // Show the "See Result" button
+                userAnswers.push({ id: questions[index - 1].id, answerChosen: '' });
             }
         },20*1000)
         // check if answer correct
@@ -220,6 +222,7 @@ document.addEventListener("DOMContentLoaded",()=>{
         localStorage.setItem('score', score);
         localStorage.setItem('incorrect', incorrect);
         localStorage.setItem('totalTime', totalTime);
+        localStorage.setItem('questionsLastshuffle', JSON.stringify(questions));
         // go to score page
         window.location.href = "score.html";
     });
